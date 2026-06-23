@@ -214,7 +214,7 @@ async function loadData(){
             ((k.submitted + k.approved + k.rejected) / k.target) * 100;
 
         tbl += `
-        <tr>
+        <tr style="cursor:pointer" onclick="openKecamatan('${k.kode}', '${k.nama}')">
             <td>${k.nama}</td>
             <td>${formatNumber(k.target)}</td>
             <td>${formatNumber(k.submitted)}</td>
