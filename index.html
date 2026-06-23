@@ -221,9 +221,11 @@ async function loadData(){
 
     if(mode === "kecamatan"){
         document.getElementById("btnBack").classList.remove("d-none");
+        document.getElementById("btnBack").style.display = 'block';
         renderKecamatan(data, kode);
     } else {
         renderKabupaten(data);
+        document.getElementById("btnBack").style.display = 'none';
     }
 }
 
