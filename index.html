@@ -1,1 +1,98 @@
-<marquee>it's up and running</marquee>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Dashboard Monitoring</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="assets/css/app.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container py-4">
+
+    <div class="mb-4">
+        <h2>Dashboard Monitoring</h2>
+        <div id="updatedAt" class="text-muted"></div>
+    </div>
+
+    <div class="row g-3 mb-4">
+
+        <div class="col-md-3">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="small text-muted">Total SLS</div>
+                    <div id="totalSls" class="kpi-value">0</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="small text-muted">Selesai</div>
+                    <div id="selesai" class="kpi-value">0</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="small text-muted">Belum</div>
+                    <div id="belum" class="kpi-value">0</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="small text-muted">Progress</div>
+                    <div id="progress" class="kpi-value">0%</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-header">
+            Trend Harian
+        </div>
+        <div class="card-body">
+            <canvas id="historyChart"></canvas>
+        </div>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-header">
+            Ringkasan Kecamatan
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-striped mb-0">
+                <thead>
+                <tr>
+                    <th>Kecamatan</th>
+                    <th>Target</th>
+                    <th>Selesai</th>
+                    <th>Progress</th>
+                </tr>
+                </thead>
+                <tbody id="tblKecamatan">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="assets/js/app.js"></script>
+
+</body>
+</html>
