@@ -280,30 +280,51 @@ function renderTable(rows){
 
     rows.forEach(k => {
 
-        const progress =
-            ((k.submitted + k.approved + k.rejected) / k.target) * 100;
-
         html += `
-        <tr class="clickable" onclick="openKecamatan('${k.kode}', '${k.nama}')">
+        <tr class="clickable"
+            onclick="openKecamatan('${k.kode}', '${k.nama}')">
+
             <td>${k.nama}</td>
             <td>${formatNumber(k.target)}</td>
-            <td>${formatNumber(k.submitted)}</td>
-            <td>${formatPercent(progress)}</td>
+            <td>-</td>
+            <td>-</td>
+
         </tr>`;
     });
 
     document.getElementById("tblKecamatan").innerHTML = html;
 }
-
+    
 /* =========================
    NAVIGATION
 ========================= */
 function openKecamatan(kode, nama){
+    const res = await fetch(`data/kecamatan/${kode}.json?v=${Date.now()}`);
+    const data = await res.json();
 
-    window.location.href =
-        `?mode=kecamatan&kode=${kode}&nama=${encodeURIComponent(nama)}`;
+    renderKecamatanDetail(data);
 }
 
+function renderKecamatanDetail(data){
+
+    // update title
+    document.querySelector("h4").innerText =
+        "SEDAP - Kecamatan " + data.meta.nama;
+
+    // KPI
+    renderKPI(data.summary);
+
+    // TABLE kosong / bisa diganti desa nanti
+    document.getElementById("tblKecamatan").innerHTML = "";
+
+    // USERS (pakai data lokal kecamatan)
+    renderUsers("topUsers", data.users, true);
+    renderUsers("bottomUsers", data.users, false);
+
+    // chart pakai history kecamatan
+    renderChart(data.history);
+}
+    
 /* =========================
    USERS
 ========================= */
