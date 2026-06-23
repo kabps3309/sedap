@@ -1,11 +1,17 @@
 {
-  "updated_at": "2026-06-23 08:00 WIB",
+  "meta": {
+    "updated_at": "2026-06-23 08:00 WIB",
+    "level": "kabupaten",
+    "wilayah": "Boyolali"
+  },
 
   "summary": {
-    "total_sls": 5000,
-    "selesai": 3500,
-    "belum": 1500,
-    "progress": 70
+    "target": 5000,
+    "open": 1200,
+    "draft": 800,
+    "submitted": 1500,
+    "approved": 1400,
+    "rejected": 100
   },
 
   "kecamatan": [
@@ -13,42 +19,44 @@
       "kode": "330901",
       "nama": "Ampel",
       "target": 500,
-      "selesai": 380
-    },
-    {
-      "kode": "330902",
-      "nama": "Simo",
-      "target": 450,
-      "selesai": 320
-    },
-    {
-      "kode": "330903",
-      "nama": "Andong",
-      "target": 600,
-      "selesai": 500
+      "open": 120,
+      "draft": 50,
+      "submitted": 150,
+      "approved": 160,
+      "rejected": 20
     }
   ],
 
   "history": [
     {
-      "tanggal": "19 Jun",
-      "nilai": 1500
-    },
+      "tanggal": "2026-06-19",
+      "submitted": 1200,
+      "approved": 900,
+      "rejected": 50
+    }
+  ],
+
+  "top_users": [
     {
-      "tanggal": "20 Jun",
-      "nilai": 2200
-    },
+      "nama": "Budi",
+      "target": 100,
+      "open": 10,
+      "draft": 5,
+      "submitted": 30,
+      "approved": 50,
+      "rejected": 2
+    }
+  ],
+
+  "bottom_users": [
     {
-      "tanggal": "21 Jun",
-      "nilai": 2800
-    },
-    {
-      "tanggal": "22 Jun",
-      "nilai": 3200
-    },
-    {
-      "tanggal": "23 Jun",
-      "nilai": 3500
+      "nama": "Andi",
+      "target": 100,
+      "open": 40,
+      "draft": 20,
+      "submitted": 10,
+      "approved": 20,
+      "rejected": 10
     }
   ]
 }
