@@ -2,97 +2,278 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>Dashboard Monitoring</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEDAP</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <link href="assets/css/app.css" rel="stylesheet">
+    <style>
+        body{
+            background:#f5f6fa;
+        }
+
+        .kpi-card{
+            border:0;
+            border-radius:12px;
+        }
+
+        .kpi-title{
+            font-size:12px;
+            color:#6c757d;
+        }
+
+        .kpi-value{
+            font-size:22px;
+            font-weight:700;
+        }
+
+        .section-title{
+            font-weight:600;
+            margin:20px 0 10px;
+        }
+
+        .bar{
+            height:8px;
+            background:#e9ecef;
+            border-radius:5px;
+            overflow:hidden;
+        }
+
+        .bar-fill{
+            height:100%;
+            background:#0d6efd;
+        }
+
+        .bar-danger{
+            background:#dc3545;
+        }
+
+        .bar-success{
+            background:#198754;
+        }
+    </style>
 </head>
+
 <body>
 
-<div class="container py-4">
+<div class="container py-3">
 
-    <div class="mb-4">
-        <h2>Dashboard Monitoring</h2>
-        <div id="updatedAt" class="text-muted"></div>
+    <!-- HEADER -->
+    <div class="mb-3">
+        <h4 class="mb-0">SEDAP Dashboard</h4>
+        <small id="updatedAt" class="text-muted"></small>
     </div>
 
-    <div class="row g-3 mb-4">
+    <!-- KPI -->
+    <div class="row g-2 mb-3">
 
-        <div class="col-md-3">
-            <div class="card shadow-sm">
+        <div class="col-6 col-md-4 col-xl-2">
+            <div class="card kpi-card shadow-sm">
                 <div class="card-body">
-                    <div class="small text-muted">Total SLS</div>
-                    <div id="totalSls" class="kpi-value">0</div>
+                    <div class="kpi-title">Target</div>
+                    <div class="kpi-value" id="kpiTarget">0</div>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-3">
-            <div class="card shadow-sm">
+        <div class="col-6 col-md-4 col-xl-2">
+            <div class="card kpi-card shadow-sm">
                 <div class="card-body">
-                    <div class="small text-muted">Selesai</div>
-                    <div id="selesai" class="kpi-value">0</div>
+                    <div class="kpi-title">Open</div>
+                    <div class="kpi-value" id="kpiOpen">0</div>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-3">
-            <div class="card shadow-sm">
+        <div class="col-6 col-md-4 col-xl-2">
+            <div class="card kpi-card shadow-sm">
                 <div class="card-body">
-                    <div class="small text-muted">Belum</div>
-                    <div id="belum" class="kpi-value">0</div>
+                    <div class="kpi-title">Draft</div>
+                    <div class="kpi-value" id="kpiDraft">0</div>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-3">
-            <div class="card shadow-sm">
+        <div class="col-6 col-md-4 col-xl-2">
+            <div class="card kpi-card shadow-sm">
                 <div class="card-body">
-                    <div class="small text-muted">Progress</div>
-                    <div id="progress" class="kpi-value">0%</div>
+                    <div class="kpi-title">Submitted</div>
+                    <div class="kpi-value" id="kpiSubmitted">0</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-6 col-md-4 col-xl-2">
+            <div class="card kpi-card shadow-sm">
+                <div class="card-body">
+                    <div class="kpi-title">Approved</div>
+                    <div class="kpi-value text-success" id="kpiApproved">0</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-6 col-md-4 col-xl-2">
+            <div class="card kpi-card shadow-sm">
+                <div class="card-body">
+                    <div class="kpi-title">Rejected</div>
+                    <div class="kpi-value text-danger" id="kpiRejected">0</div>
                 </div>
             </div>
         </div>
 
     </div>
 
-    <div class="card shadow-sm mb-4">
-        <div class="card-header">
-            Trend Harian
-        </div>
+    <!-- TREND -->
+    <div class="card shadow-sm mb-3">
         <div class="card-body">
-            <canvas id="historyChart"></canvas>
+            <div class="section-title">Trend Harian</div>
+            <canvas id="trendChart" height="120"></canvas>
         </div>
     </div>
 
-    <div class="card shadow-sm">
-        <div class="card-header">
-            Ringkasan Kecamatan
-        </div>
+    <!-- TABLE KECAMATAN -->
+    <div class="card shadow-sm mb-3">
+        <div class="card-body">
 
-        <div class="table-responsive">
-            <table class="table table-striped mb-0">
-                <thead>
-                <tr>
-                    <th>Kecamatan</th>
-                    <th>Target</th>
-                    <th>Selesai</th>
-                    <th>Progress</th>
-                </tr>
-                </thead>
-                <tbody id="tblKecamatan">
-                </tbody>
-            </table>
+            <div class="section-title">Kecamatan</div>
+
+            <div class="table-responsive">
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>Kecamatan</th>
+                            <th>Target</th>
+                            <th>Submitted</th>
+                            <th>Progress</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tblKecamatan"></tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- TOP 5 -->
+    <div class="card shadow-sm mb-3">
+        <div class="card-body">
+
+            <div class="section-title">Top 5 User</div>
+            <div id="topUsers"></div>
+
+        </div>
+    </div>
+
+    <!-- BOTTOM 5 -->
+    <div class="card shadow-sm mb-3">
+        <div class="card-body">
+
+            <div class="section-title">Bottom 5 User</div>
+            <div id="bottomUsers"></div>
+
         </div>
     </div>
 
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="assets/js/app.js"></script>
+
+<script>
+function formatNumber(x){
+    return new Intl.NumberFormat('id-ID').format(x);
+}
+
+function formatPercent(x){
+    return x.toFixed(1) + "%";
+}
+
+async function loadData(){
+
+    const res = await fetch("data/dashboard.json?v=" + Date.now());
+    const data = await res.json();
+
+    // HEADER
+    document.getElementById("updatedAt").innerText =
+        "Update: " + data.updated_at;
+
+    // KPI
+    const s = data.summary;
+
+    document.getElementById("kpiTarget").innerText = formatNumber(s.target);
+    document.getElementById("kpiOpen").innerText = formatNumber(s.open);
+    document.getElementById("kpiDraft").innerText = formatNumber(s.draft);
+    document.getElementById("kpiSubmitted").innerText = formatNumber(s.submitted);
+    document.getElementById("kpiApproved").innerText = formatNumber(s.approved);
+    document.getElementById("kpiRejected").innerText = formatNumber(s.rejected);
+
+    // TABLE KECAMATAN
+    let tbl = "";
+    data.kecamatan.forEach(k => {
+
+        const progress =
+            ((k.submitted + k.approved + k.rejected) / k.target) * 100;
+
+        tbl += `
+        <tr>
+            <td>${k.nama}</td>
+            <td>${formatNumber(k.target)}</td>
+            <td>${formatNumber(k.submitted)}</td>
+            <td>${formatPercent(progress)}</td>
+        </tr>`;
+    });
+
+    document.getElementById("tblKecamatan").innerHTML = tbl;
+
+    // TOP USERS
+    renderUsers("topUsers", data.top_users, true);
+
+    // BOTTOM USERS
+    renderUsers("bottomUsers", data.bottom_users, false);
+
+    // CHART
+    const ctx = document.getElementById("trendChart");
+
+    new Chart(ctx, {
+        type: "line",
+        data: {
+            labels: data.history.map(x => x.tanggal),
+            datasets: [{
+                label: "Approved",
+                data: data.history.map(x => x.value),
+                borderColor: "#198754"
+            }]
+        }
+    });
+}
+
+function renderUsers(id, users, isTop){
+
+    let html = "";
+
+    users.forEach(u => {
+
+        const progress =
+            ((u.submitted + u.approved + u.rejected) / u.target) * 100;
+
+        html += `
+        <div class="mb-2">
+            <div class="d-flex justify-content-between">
+                <small>${u.nama}</small>
+                <small>${formatPercent(progress)}</small>
+            </div>
+
+            <div class="bar">
+                <div class="bar-fill ${isTop ? 'bar-success' : 'bar-danger'}"
+                     style="width:${progress}%"></div>
+            </div>
+        </div>`;
+    });
+
+    document.getElementById(id).innerHTML = html;
+}
+
+loadData();
+</script>
 
 </body>
 </html>
