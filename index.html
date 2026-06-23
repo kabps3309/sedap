@@ -64,6 +64,10 @@
         <small id="updatedAt" class="text-muted"></small>
     </div>
 
+    <button class="btn btn-sm btn-outline-primary" onclick="goBack()">
+        ← Kembali
+    </button>
+    
     <!-- KPI -->
     <div class="row g-2 mb-3">
 
@@ -179,6 +183,12 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
+const params = new URLSearchParams(window.location.search);
+
+const mode = params.get("mode") || "kabupaten";
+const kode = params.get("kode");
+const nama = params.get("nama");
+    
 function formatNumber(x){
     return new Intl.NumberFormat('id-ID').format(x);
 }
@@ -188,10 +198,16 @@ function formatPercent(x){
 }
 
 async function loadData(){
-
     const res = await fetch("data/dashboard.json?v=" + Date.now());
     const data = await res.json();
 
+    if(mode === "kabupaten"){
+        renderKabupaten(data);
+    } else {
+        renderKecamatan(data, kode, nama);
+    }
+
+    /*
     // HEADER
     document.getElementById("updatedAt").innerText =
         "Update: " + data.updated_at;
@@ -244,10 +260,61 @@ async function loadData(){
             }]
         }
     });
+
+    */
 }
 
-function renderUsers(id, users, isTop){
+function renderKabupaten(data){
+    // KPI tetap
+    renderKPI(data.summary);
 
+    // tabel kecamatan tetap
+    renderTableKecamatan(data.kecamatan);
+
+    // chart tetap
+    renderChart(data.history);
+
+    // user ranking tetap
+    renderUsers("topUsers", data.top_users, true);
+    renderUsers("bottomUsers", data.bottom_users, false);
+}
+
+function renderKecamatan(data, kode, nama){
+    document.querySelector("h4").innerText =
+        "SEDAP - Kecamatan " + nama;
+
+    const kec = data.kecamatan.find(k => k.kode === kode);
+
+    if(!kec){
+        document.body.innerHTML = "Data tidak ditemukan";
+        return;
+    }
+
+    const summary = {
+        target: kec.target,
+        open: kec.open,
+        draft: kec.draft,
+        submitted: kec.submitted,
+        approved: kec.approved,
+        rejected: kec.rejected
+    };
+
+    renderKPI(summary);
+
+    // sementara: reuse tabel & user dari kabupaten (nanti kita pecah ke desa)
+    renderTableKecamatan([kec]);
+}
+
+function renderKPI(s){
+    document.getElementById("kpiTarget").innerText = formatNumber(s.target);
+    document.getElementById("kpiOpen").innerText = formatNumber(s.open);
+    document.getElementById("kpiDraft").innerText = formatNumber(s.draft);
+    document.getElementById("kpiSubmitted").innerText = formatNumber(s.submitted);
+    document.getElementById("kpiApproved").innerText = formatNumber(s.approved);
+    document.getElementById("kpiRejected").innerText = formatNumber(s.rejected);
+}
+    
+function renderUsers(id, users, isTop){
     let html = "";
 
     users.forEach(u => {
@@ -272,6 +339,9 @@ function renderUsers(id, users, isTop){
     document.getElementById(id).innerHTML = html;
 }
 
+function goBack(){
+    window.location.href = "index.html";
+}
 loadData();
 </script>
 
