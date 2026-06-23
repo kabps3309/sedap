@@ -1,0 +1,38 @@
+{
+  "meta": {
+    "kode": "330901",
+    "nama": "Ampel"
+  },
+
+  "summary": {
+    "target": 500,
+    "open": 120,
+    "draft": 50,
+    "submitted": 150,
+    "approved": 160,
+    "rejected": 20
+  },
+
+  "history": [
+    {
+      "tanggal": "2026-06-20",
+      "submitted": 100,
+      "approved": 80
+    },
+    {
+      "tanggal": "2026-06-21",
+      "submitted": 150,
+      "approved": 120
+    }
+  ],
+
+  "users": [
+    {
+      "nama": "Budi",
+      "target": 100,
+      "submitted": 30,
+      "approved": 60,
+      "rejected": 5
+    }
+  ]
+}
