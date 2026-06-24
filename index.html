@@ -255,7 +255,6 @@ function renderKabupaten(data){
    KECAMATAN VIEW
 ========================= */
 function renderKecamatan(data, kode){
-    document.getElementById("btnBack").classList.remove("d-none");
 
     const kec = data.kecamatan.find(k => k.kode === kode);
 
@@ -306,6 +305,7 @@ async function openKecamatan(kode, nama){
 }
 
 function renderKecamatanDetail(data){
+    document.getElementById("btnBack").classList.remove("d-none");
 
     // update title
     document.querySelector("h4").innerText =
