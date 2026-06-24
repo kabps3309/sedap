@@ -243,18 +243,19 @@ function renderKPI(s){
    KABUPATEN VIEW
 ========================= */
 function renderKabupaten(data){
+    document.getElementById("btnBack").classList.add("d-none");
 
     renderTable(data.kecamatan);
     renderUsers("topUsers", data.top_users, true);
     renderUsers("bottomUsers", data.bottom_users, false);
     renderChart(data.history);
-    document.getElementById("btnBack").classList.add("d-none");
 }
 
 /* =========================
    KECAMATAN VIEW
 ========================= */
 function renderKecamatan(data, kode){
+    document.getElementById("btnBack").classList.remove("d-none");
 
     const kec = data.kecamatan.find(k => k.kode === kode);
 
@@ -268,7 +269,6 @@ function renderKecamatan(data, kode){
     document.querySelector(".section-title").innerText =
         "Kecamatan: " + kec.nama;
     
-    document.getElementById("btnBack").classList.remove("d-none");
 }
 
 /* =========================
