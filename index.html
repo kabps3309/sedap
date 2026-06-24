@@ -220,12 +220,9 @@ async function loadData(){
     renderKPI(data.summary);
 
     if(mode === "kecamatan"){
-        document.getElementById("btnBack").classList.remove("d-none");
-        document.getElementById("btnBack").style.display = 'block';
         renderKecamatan(data, kode);
     } else {
         renderKabupaten(data);
-        document.getElementById("btnBack").style.display = 'none';
     }
 }
 
@@ -251,6 +248,7 @@ function renderKabupaten(data){
     renderUsers("topUsers", data.top_users, true);
     renderUsers("bottomUsers", data.bottom_users, false);
     renderChart(data.history);
+    document.getElementById("btnBack").classList.add("d-none");
 }
 
 /* =========================
@@ -269,6 +267,8 @@ function renderKecamatan(data, kode){
 
     document.querySelector(".section-title").innerText =
         "Kecamatan: " + kec.nama;
+    
+    document.getElementById("btnBack").classList.remove("d-none");
 }
 
 /* =========================
@@ -298,7 +298,7 @@ function renderTable(rows){
 /* =========================
    NAVIGATION
 ========================= */
-function openKecamatan(kode, nama){
+async function openKecamatan(kode, nama){
     const res = await fetch(`data/kecamatan/${kode}.json?v=${Date.now()}`);
     const data = await res.json();
 
